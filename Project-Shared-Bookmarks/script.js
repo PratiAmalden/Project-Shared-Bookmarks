@@ -31,6 +31,68 @@ function userDropdown() {
     userSelect.appendChild(option);
   });
 }
+userSelect.addEventListener("change", () => {
+  // Update the currentUserId
+  currentUserId = userSelect.value;
 
+  if (!currentUserId) {
+    bookmarkList.innerHTML = "<p>Please select a user.</p>";
+    return;
+  }
+
+  // Otherwise render the selected user's bookmarks
+  renderBookmarks(currentUserId);
+});
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault(); // Prevent the default form POST behavior
+
+  // Ensure a user is selected before adding a bookmark
+  if (!currentUserId) {
+    alert("Please select a user before adding a bookmark.");
+    return;
+  }
+
+  // Construct a new bookmark object from the form inputs
+  const newBookmark = {
+    url: urlInput.value.trim(),
+    title: titleInput.value.trim(),
+    description: descInput.value.trim(),
+    createdAt: new Date().toISOString(), // Timestamp for sorting or metadata
+  };
+
+  // Validate that all fields are filled out
+  if (!newBookmark.url || !newBookmark.title || !newBookmark.description) {
+    alert("All fields are required.");
+    return;
+  }
+
+  // Retrieve existing bookmarks for this user (or an empty array)
+  const existingData = getData(currentUserId) || [];
+
+  const updatedData = [...existingData, newBookmark];
+
+  // Persist the updated array back into storage
+  setData(currentUserId, updatedData);
+
+  // Clear the form inputs for the next entry
+  form.reset();
+
+  // Refresh the displayed list
+  renderBookmarks(currentUserId);
+});
+
+function renderBookmarks(userId) {
+  // Fetch the array of bookmarks from storage
+  const bookmarks = getData(userId) || [];
+
+  const list = generateBookmarkList(bookmarks);
+
+  // Clear any previous content
+  bookmarkList.innerHTML = "";
+
+  // Insert the newly generated list into the page
+  bookmarkList.appendChild(list);
+}
 // Initialize the app by loading the user dropdown
 userDropdown();
