@@ -9,28 +9,26 @@ import { getUserIds, getData, setData } from './storage.js';
 import { generateBookmarkList } from './utils.js';
 
 // references to key DOM elements by their IDs
-const userSelect     = document.getElementById('user-select');      // <select> for choosing a user
-const bookmarkList   = document.getElementById('bookmark-list');    // Container to display bookmarks
-const form           = document.getElementById('bookmark-form');    // The form for adding new bookmarks
-const urlInput       = document.getElementById('url-input');        // Input for bookmark URL
-const titleInput     = document.getElementById('title-input');      // Input for bookmark title
-const descInput      = document.getElementById('description-input');// Input for bookmark description
+const userSelect = document.getElementById("user-select");      // <select> for choosing a user
+const bookmarkList = document.getElementById('bookmark-list');    // Container to display bookmarks
+const form = document.getElementById('bookmark-form');    // The form for adding new bookmarks
+const urlInput = document.getElementById('url-input');        // Input for bookmark URL
+const titleInput = document.getElementById('title-input');      // Input for bookmark title
+const descInput = document.getElementById('description-input');// Input for bookmark description
 
 // Tracks which user is currently selected
 let currentUserId = null;
 
-/**
- * Populate the user dropdown on page load.
- * For each user ID returned by getUserIds(), create an <option> element.
- */
+
 function userDropdown() {
-  getUserIds().forEach(userId => {
-    const option = document.createElement('option');
-    option.value = userId;
-    option.textContent = `User ${userId}`;
+  const users = getUserIds();
+  users.forEach((userID) => {
+    const option = document.createElement("option");
+    option.value = userID;
+    option.textContent = `User ${userID}`;
     userSelect.appendChild(option);
   });
-}
+};
 userSelect.addEventListener("change", () => {
   // Update the currentUserId
   currentUserId = userSelect.value;
@@ -94,5 +92,7 @@ function renderBookmarks(userId) {
   // Insert the newly generated list into the page
   bookmarkList.appendChild(list);
 }
+
 // Initialize the app by loading the user dropdown
 userDropdown();
+
