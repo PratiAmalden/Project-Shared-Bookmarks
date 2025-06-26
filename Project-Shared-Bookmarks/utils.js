@@ -1,13 +1,19 @@
-function generateBookmarkList(bookmarks) {
+export function generateBookmarkList(bookmarks) {
   if (!bookmarks || bookmarks.length === 0) {
     const p = document.createElement("p");
     p.textContent = "No bookmarks found for this user.";
     return p;
   }
 
-  const sorted = bookmarks
+  const validBookmarks = bookmarks.filter((b) => {
+    const date = new Date(b.createdAt);
+    return date.toString() !== "Invalid Date";
+  });
+
+  const sorted = validBookmarks
     .slice()
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
   const ul = document.createElement("ul");
 
   sorted.forEach((bookmark) => {
@@ -23,9 +29,11 @@ function generateBookmarkList(bookmarks) {
     description.textContent = bookmark.description;
 
     const timestamp = document.createElement("small");
-    timestamp.textContent = `Created at: ${new Date(
-      bookmark.createdAt
-    ).toLocaleString()}`;
+    const date = new Date(bookmark.createdAt);
+    timestamp.textContent = date.toString() !== "Invalid Date"
+      ? `Created at: ${date.toLocaleString()}`
+      : "Created at: Unknown";
+
 
     li.appendChild(link);
     li.appendChild(description);
@@ -35,5 +43,3 @@ function generateBookmarkList(bookmarks) {
 
   return ul;
 }
-
-module.exports = { generateBookmarkList };
