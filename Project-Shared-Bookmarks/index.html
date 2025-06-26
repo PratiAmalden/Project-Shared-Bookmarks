@@ -1,8 +1,44 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bookmark Sharing App</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A simple bookmark sharing app for managing and viewing user-specific bookmarks.">
+
+  <script type="module" src="script.js"></script>
+</head>
+<body>
+
+  <h1>Bookmark Sharing App</h1>
+
+  <!-- User selector -->
+  <label for="user-select">Select a user:</label>
+  <select id="user-select" name="user-select">
+    <option value="">-- Choose a user --</option>
+  </select>
+
+  <!-- Bookmark form -->
+  <h2>Add a new bookmark</h2>
+  <form id="bookmark-form">
+    <label for="url-input">URL:</label><br>
+    <input type="url" id="url-input" name="url" required><br><br>
+
+    <label for="title-input">Title:</label><br>
+    <input type="text" id="title-input" name="title" required><br><br>
+
+    <label for="description-input">Description:</label><br>
+    <textarea id="description-input" name="description" rows="4" required></textarea><br><br>
+
+    <button type="submit">Add Bookmark</button>
+  </form>
+
+  <!-- Bookmark list -->
+  <h2>Bookmarks</h2>
+  <div id="bookmark-list" aria-live="polite">
+    <p>Select a user to view bookmarks.</p>
+  </div>
+
+</body>
 </html>
